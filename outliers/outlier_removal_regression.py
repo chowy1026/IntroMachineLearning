@@ -50,8 +50,8 @@ try:
     predictions = reg.predict(ages_train)
     cleaned_data = outlierCleaner( predictions, ages_train, net_worths_train )
 except NameError:
-    print "your regression object doesn't exist, or isn't name reg"
-    print "can't make predictions to use in identifying outliers"
+    print("your regression object doesn't exist, or isn't name reg")
+    print("can't make predictions to use in identifying outliers")
 
 
 
@@ -70,9 +70,9 @@ if len(cleaned_data) > 0:
         reg.fit(ages, net_worths)
         plt.plot(ages, reg.predict(ages), color="blue")
     except NameError:
-        print "you don't seem to have regression imported/created,"
-        print "   or else your regression object isn't named reg"
-        print "   either way, only draw the scatter plot of the cleaned data"
+        print("you don't seem to have regression imported/created,")
+        print("   or else your regression object isn't named reg")
+        print("   either way, only draw the scatter plot of the cleaned data")
     plt.scatter(ages, net_worths)
     plt.xlabel("ages")
     plt.ylabel("net worths")
@@ -80,5 +80,4 @@ if len(cleaned_data) > 0:
 
 
 else:
-    print "outlierCleaner() is returning an empty list, no refitting to be done"
-
+    print("outlierCleaner() is returning an empty list, no refitting to be done")
