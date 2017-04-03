@@ -23,7 +23,7 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 
 
-
+t0 = time()
 #########################################################
 ### your code goes here ###
 
@@ -33,12 +33,14 @@ from sklearn.metrics import accuracy_score
 clf = GaussianNB()
 
 ### fit the classifier on the training features and labels
+t0 = time() # start time of fitting
 clf.fit(features_train, labels_train)
-
+print("training time:", round(time()-t0, 3), "s") # duration of fitting
 
 ### use the trained classifier to predict labels for the test features
+t1 = time() # start time of predicting
 labels_pred = clf.predict(features_test)
-
+print("prediction time:", round(time()-t1, 3), "s") # duration of preditcting
 
 ### calculate and return the accuracy on the test data
 ### this is slightly different than the example,
