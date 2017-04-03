@@ -23,7 +23,7 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 
 
-t0 = time()
+
 #########################################################
 ### your code goes here ###
 
@@ -46,6 +46,7 @@ print("prediction time:", round(time()-t1, 3), "s") # duration of preditcting
 ### this is slightly different than the example,
 ### where we just print the accuracy
 ### you might need to import an sklearn module
+
 accuracy = accuracy_score(labels_test, labels_pred)
 print(accuracy)
 
