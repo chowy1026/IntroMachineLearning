@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
     This is the code to accompany the Lesson 2 (SVM) mini-project.

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """ 
     Starter code for exploring the Enron dataset (emails + finances);
