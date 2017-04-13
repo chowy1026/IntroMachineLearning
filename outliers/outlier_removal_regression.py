@@ -9,8 +9,8 @@ from outlier_cleaner import outlierCleaner
 
 
 ### load up some practice data with outliers in it
-ages = pickle.load( open("practice_outliers_ages.pkl", "r") )
-net_worths = pickle.load( open("practice_outliers_net_worths.pkl", "r") )
+ages = pickle.load( open("practice_outliers_ages.pkl", "rb") )
+net_worths = pickle.load( open("practice_outliers_net_worths.pkl", "rb") )
 
 
 
@@ -27,6 +27,19 @@ ages_train, ages_test, net_worths_train, net_worths_test = train_test_split(ages
 ### the plotting code below works, and you can see what your regression looks like
 
 
+from sklearn import datasets, linear_model
+reg = linear_model.LinearRegression()
+reg = reg.fit(ages_train, net_worths_train)
+
+# print("predicted networth with age 38: ", reg.predict([28]))
+print("pre-cleaned coefficient: ", reg.coef_)
+print("pre-cleaned intercept: ", reg.intercept_)
+
+print("\n ########## Test on Test Dataset ########## \n")
+print("pre-cleaned r-squared score", reg.score(ages_test, net_worths_test))
+
+print("\n ########## Test on Training Dataset ########## \n")
+print("pre-cleaned r-squared score", reg.score(ages_train, net_worths_train))
 
 
 
@@ -69,6 +82,17 @@ if len(cleaned_data) > 0:
     try:
         reg.fit(ages, net_worths)
         plt.plot(ages, reg.predict(ages), color="blue")
+        # print("predicted networth with age 38: ", reg.predict([28]))
+        print("\n ########## Post-Cleaned ########## \n")
+        print("post-cleaned coefficient: ", reg.coef_)
+        print("post-cleaned intercept: ", reg.intercept_)
+
+        print("\n ########## Test on Test Dataset ########## \n")
+        print("post-cleaned r-squared score", reg.score(ages_test, net_worths_test))
+
+        print("\n ########## Test on Training Dataset ########## \n")
+        print("post-cleaned r-squared score", reg.score(ages_train, net_worths_train))
+
     except NameError:
         print("you don't seem to have regression imported/created,")
         print("   or else your regression object isn't named reg")
