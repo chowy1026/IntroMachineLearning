@@ -19,6 +19,7 @@ import pprint
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
+import matplotlib
 # with open("../final_project/final_project_dataset.pkl", "rb") as f:
 #     enron_data = pickle.load(f)
 dictionary = pickle.load( open("../final_project/final_project_dataset_modified.pkl", "rb") )

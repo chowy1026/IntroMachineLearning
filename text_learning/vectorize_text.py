@@ -23,8 +23,8 @@ from parse_out_email_text import parseOutText
 """
 
 
-from_sara  = open("from_sara.txt", "r")
-from_chris = open("from_chris.txt", "r")
+from_sara  = open("from_sara.txt", "rb")
+from_chris = open("from_chris.txt", "rb")
 
 from_data = []
 word_data = []
@@ -45,7 +45,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         if temp_counter < 200:
             path = os.path.join('..', path[:-1])
             print(path)
-            email = open(path, "r")
+            email = open(path, "rb")
 
             ### use parseOutText to extract the text from the opened email
 

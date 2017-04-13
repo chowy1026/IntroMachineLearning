@@ -11,7 +11,7 @@ def parseOutText(f):
         in the email (space-separated)
 
         example use case:
-        f = open("email_file_name.txt", "r")
+        f = open("email_file_name.txt", "rb")
         text = parseOutText(f)
 
         """
@@ -43,7 +43,7 @@ def parseOutText(f):
 
 
 def main():
-    ff = open("../text_learning/test_email.txt", "r")
+    ff = open("../text_learning/test_email.txt", "rb")
     text = parseOutText(ff)
     print(text)
 
