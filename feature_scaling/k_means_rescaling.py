@@ -76,10 +76,14 @@ scaled_stock_minmax = min_max_scaler.fit_transform(numpy.array([[flt] for flt in
 
 print("scaled_salary_minmax : ", scaled_salary_minmax)
 print("scaled_stock_minmax : ", scaled_stock_minmax)
-#
+
+
+
+### Comment out the plot codes
+
 # ### in the "clustering with 3 features" part of the mini-project,
 # ### you'll want to change this line to
-# ### for f1, f2, _ in finance_features:
+# ### for f1, f2, _ in finance_features:s
 # ### (as it's currently written, the line below assumes 2 features)
 # for f1, f2 in finance_features:
 #     plt.scatter( f1, f2 )
