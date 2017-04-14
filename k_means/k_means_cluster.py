@@ -44,7 +44,6 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "rb"
 ### there's an outlier--remove it!
 data_dict.pop("TOTAL", 0)
 
-
 ### the input features we want to use
 ### can be any key in the person-level dictionary (salary, director_fees, etc.)
 feature_1 = "salary"
@@ -52,23 +51,26 @@ feature_2 = "exercised_stock_options"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
-data2 = featureFormat(data_dict, features_list, remove_NaN=True )
 poi, finance_features = targetFeatureSplit( data )
-poi2, finance_features2 = targetFeatureSplit( data2 )
 
+# Find min max of salary and exercised_stock_options
+lst_stock = []
+lst_salary = []
 
-lst_stock_val = []
-pprint.pprint(data_dict)
 for k, v in data_dict.items():
     stats = v
-    pprint.pprint(stats)
     for key, val in stats.items():
         if key == "salary" and val != 'NaN':
-            lst_stock_val.append(val)
+            lst_salary.append(val)
+        elif key == "exercised_stock_options" and val != 'NaN':
+            lst_stock.append(val)
 
-print(lst_stock_val)
-print(max(lst_stock_val))
-print(min(lst_stock_val))
+print("Min Salary: ", min(lst_salary))
+print("Max Salary: ", max(lst_salary))
+print("Min Exercised Stock Options: ", min(lst_stock))
+print("Max Exercised Stock Options: ", max(lst_stock))
+
+
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to
 ### for f1, f2, _ in finance_features:
@@ -78,19 +80,15 @@ for f1, f2 in finance_features:
 
 plt.show()
 
+
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 from sklearn.cluster import KMeans
+
+# 2 Clusters
 clf2 = KMeans(n_clusters=2)
 pred2 = clf2.fit_predict( finance_features )
-#
-# kmeans = KMeans(n_clusters=2, n_init = 10, max_iter = 300).fit(finance_features)
-# print(kmeans.labels_)
-# print(type(poi))
-#
-# pred = clf.predict(finance_features)
-# kmeans.cluster_centers_
-
+# 3 Clusters
 clf3 = KMeans(n_clusters=3)
 pred3 = clf3.fit_predict( finance_features )
 
@@ -101,10 +99,10 @@ try:
     Draw(pred2, finance_features, poi, mark_poi=False, name="clusters_n2.png", f1_name=feature_1, f2_name=feature_2)
 
 except NameError:
-    print("no predictions object named pred found, no clusters to plot")
+    print("no predictions object named pred2 found, no clusters to plot")
 
 try:
     Draw(pred3, finance_features, poi, mark_poi=False, name="clusters_n3.png", f1_name=feature_1, f2_name=feature_2)
 
 except NameError:
-    print("no predictions object named pred found, no clusters to plot")
+    print("no predictions object named pred3 found, no clusters to plot")
