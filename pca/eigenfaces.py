@@ -16,14 +16,15 @@ The dataset used in this example is a preprocessed excerpt of the
 
 
 
-print __doc__
+print(__doc__)
 
 from time import time
 import logging
 import pylab as pl
 import numpy as np
 
-from sklearn.cross_validation import train_test_split
+# from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import classification_report
@@ -73,7 +74,12 @@ t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
 print("done in %0.3fs" % (time() - t0))
 
+print("PCA.explained_variance_ratio: ", pca.explained_variance_ratio)
+print("1st Component: ", pca.components_[0])
+print("1st Component: ", pca.components_[1])
+
 eigenfaces = pca.components_.reshape((n_components, h, w))
+
 
 print("Projecting the input data on the eigenfaces orthonormal basis")
 t0 = time()
