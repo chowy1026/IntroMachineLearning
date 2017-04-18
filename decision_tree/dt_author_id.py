@@ -32,5 +32,5 @@ pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
 print("DT Sample Split 40 Accuracy Score: ", acc)
 
-
+print(clf.feature_importances_)
 #########################################################

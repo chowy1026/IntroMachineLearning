@@ -4,6 +4,9 @@ import pickle
 import numpy
 numpy.random.seed(42)
 
+from sklearn import tree
+from sklearn.metrics import accuracy_score
+
 
 ### The words (features) and authors (labels), already largely processed.
 ### These files should have been created from the previous (Lesson 10)
@@ -38,3 +41,19 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
+
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features_train, labels_train)
+
+pred = clf.predict(features_test)
+acc = accuracy_score(pred, labels_test)
+print("Overfit DT Accuracy Score: ", acc)
+
+# for f in clf.feature_importances_:
+print(features_train.shape)
+
+index_high_importance = numpy.argwhere(clf.feature_importances_>=0.2)
+print(len(index_high_importance))
+print(index_high_importance)
+for indx in index_high_importance:
+    print(vectorizer.get_feature_names()[indx[0]])

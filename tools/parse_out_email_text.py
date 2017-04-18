@@ -23,7 +23,7 @@ def parseOutText(f):
 
     f.seek(0)  ### go back to beginning of file (annoying)
     all_text = f.read()
-    print(all_text)
+    # print(all_text)
 
     ### split off metadata
     content = all_text.split("X-FileName:")
