@@ -213,13 +213,14 @@ for feature, count, density, poi_count, poi_density, non_poi_count, non_poi_dens
 
 ### New All Original and New Feature List
 all_features = bool_features + numeric_features + new_features
-
+print('%d all_features: %r' % (len(all_features), all_features))
 ### Store to my_dataset for easy export below.
 my_dataset = enron_data
 
 
 data = featureFormat(my_dataset, all_features, sort_keys = True)
 labels, features = targetFeatureSplit(data)
+
 
 
 #########################################################################
@@ -275,67 +276,67 @@ def add_estimator_pipe(name, estimator, pipe):
 ###0 Scaler_1, pca, scaler_2[to remove negative values from PCA], kbest, linear svc
 est_pipe_pca_kbest_lnr_sv = [('f_scaler_1', f_minmaxscaler), ('dim_reduc', dim_reduc), ('f_kbest', f_kbest), ('f_scaler_2', f_stdscaler), ('lnr_sv_clf', lnr_sv_clf)]
 pipe_pca_kbest_lnr_sv = Pipeline(est_pipe_pca_kbest_lnr_sv)
-add_estimator_pipe("PCA KBest LinearSVC", est_pipe_pca_kbest_lnr_sv, pipe_pca_kbest_lnr_sv)
+add_estimator_pipe("PCA_KBest_LinearSVC", est_pipe_pca_kbest_lnr_sv, pipe_pca_kbest_lnr_sv)
 
 ###1 Scaler, kbest, pca, linear svc
 est_pipe_kbest_pca_lnr_sv = [('f_scaler_1', f_minmaxscaler), ('f_kbest', f_kbest), ('dim_reduc', dim_reduc), ('f_scaler_2', f_stdscaler), ('lnr_sv_clf', lnr_sv_clf)]
 pipe_kbest_pca_lnr_sv = Pipeline(est_pipe_kbest_pca_lnr_sv)
-add_estimator_pipe("KBest PCA LinearSVC", est_pipe_kbest_pca_lnr_sv, pipe_kbest_pca_lnr_sv)
+add_estimator_pipe("KBest_PCA_LinearSVC", est_pipe_kbest_pca_lnr_sv, pipe_kbest_pca_lnr_sv)
 
 ###2 Scaler_1, pca, scaler_2[to remove negative values from PCA], kbest, rbf svc
 est_pipe_pca_kbest_rbf_sv = [('f_scaler_1', f_minmaxscaler), ('dim_reduc', dim_reduc), ('f_kbest', f_kbest), ('f_scaler_2', f_stdscaler), ('rbf_sv_clf', rbf_sv_clf)]
 pipe_pca_kbest_rbf_sv = Pipeline(est_pipe_pca_kbest_rbf_sv)
-add_estimator_pipe("PCA KBest RBFSCV", est_pipe_pca_kbest_rbf_sv, pipe_pca_kbest_rbf_sv)
+add_estimator_pipe("PCA_KBest_RBFSCV", est_pipe_pca_kbest_rbf_sv, pipe_pca_kbest_rbf_sv)
 
 ###3 Scaler, kbest, pca, rbf svc
 est_pipe_kbest_pca_rbf_sv = [('f_scaler_1', f_minmaxscaler),  ('f_kbest', f_kbest), ('dim_reduc', dim_reduc), ('f_scaler_2', f_stdscaler), ('rbf_sv_clf', rbf_sv_clf)]
 pipe_kbest_pca_rbf_sv = Pipeline(est_pipe_kbest_pca_rbf_sv)
-add_estimator_pipe("KBest PCA RBFSCV", est_pipe_kbest_pca_rbf_sv, pipe_kbest_pca_rbf_sv)
+add_estimator_pipe("KBest_PCA_RBFSCV", est_pipe_kbest_pca_rbf_sv, pipe_kbest_pca_rbf_sv)
 
 ###4 Scaler_1, pca, scaler_2[to remove negative values from PCA], kbest, decision tree classifier
 est_pipe_pca_kbest_dt = [('f_scaler_1', f_minmaxscaler), ('dim_reduc', dim_reduc), ('f_kbest', f_kbest), ('f_scaler_2', f_stdscaler), ('dt_clf', dt_clf)]
 pipe_pca_kbest_dt = Pipeline(est_pipe_pca_kbest_dt)
-add_estimator_pipe("PCA KBest DecisionTree", est_pipe_pca_kbest_dt, pipe_pca_kbest_dt)
+add_estimator_pipe("PCA_KBest_DecisionTree", est_pipe_pca_kbest_dt, pipe_pca_kbest_dt)
 
 ###5 Scaler, kbest, pca, decision tree classifier
 est_pipe_kbest_pca_dt = [('f_scaler_1', f_minmaxscaler),  ('f_kbest', f_kbest), ('dim_reduc', dim_reduc), ('f_scaler_2', f_stdscaler), ('dt_clf', dt_clf)]
 pipe_kbest_pca_dt = Pipeline(est_pipe_kbest_pca_dt)
-add_estimator_pipe("KBest PCA DecisionTree", est_pipe_kbest_pca_dt, pipe_kbest_pca_dt)
+add_estimator_pipe("KBest_PCA_DecisionTree", est_pipe_kbest_pca_dt, pipe_kbest_pca_dt)
 
 ###6 Scaler_1, pca, scaler_2[to remove negative values from PCA], kbest, gaussian naive bayes classifier
 est_pipe_pca_kbest_nb = [('f_scaler_1', f_minmaxscaler), ('dim_reduc', dim_reduc), ('f_kbest', f_kbest), ('f_scaler_2', f_stdscaler), ('nb_clf', nb_clf)]
 pipe_pca_kbest_nb = Pipeline(est_pipe_pca_kbest_nb)
-add_estimator_pipe("PCA KBest DecisionTree", est_pipe_pca_kbest_nb, pipe_pca_kbest_nb)
+add_estimator_pipe("PCA_KBest_DecisionTree", est_pipe_pca_kbest_nb, pipe_pca_kbest_nb)
 
 ###7 Scaler, kbest, pca, gaussian naive bayes classifier
 est_pipe_kbest_pca_nb = [('f_scaler_1', f_minmaxscaler),  ('f_kbest', f_kbest), ('dim_reduc', dim_reduc), ('f_scaler_2', f_stdscaler), ('nb_clf', nb_clf)]
 pipe_kbest_pca_nb = Pipeline(est_pipe_kbest_pca_nb)
-add_estimator_pipe("KBest PCA DecisionTree", est_pipe_kbest_pca_nb, pipe_kbest_pca_nb)
+add_estimator_pipe("KBest_PCA_DecisionTree", est_pipe_kbest_pca_nb, pipe_kbest_pca_nb)
 
 ###8 Scaler_1, pca, scaler_2[to remove negative values from PCA], kbest, random forest classifier
 est_pipe_pca_kbest_rf = [('f_scaler_1', f_minmaxscaler), ('dim_reduc', dim_reduc), ('f_kbest', f_kbest), ('f_scaler_2', f_stdscaler), ('rf_clf', rf_clf)]
 pipe_pca_kbest_rf = Pipeline(est_pipe_pca_kbest_rf)
-add_estimator_pipe("PCA KBest RandomForest", est_pipe_pca_kbest_rf, pipe_pca_kbest_rf)
+add_estimator_pipe("PCA_KBest_RandomForest", est_pipe_pca_kbest_rf, pipe_pca_kbest_rf)
 
 ###9 Scaler, kbest, pca, random forest classifier
 est_pipe_kbest_pca_rf = [('f_scaler_1', f_minmaxscaler),  ('f_kbest', f_kbest), ('dim_reduc', dim_reduc), ('f_scaler_2', f_stdscaler), ('rf_clf', rf_clf)]
 pipe_kbest_pca_rf = Pipeline(est_pipe_kbest_pca_rf)
-add_estimator_pipe("KBest PCA RandomForest", est_pipe_kbest_pca_rf, pipe_kbest_pca_rf)
+add_estimator_pipe("KBest_PCA_RandomForest", est_pipe_kbest_pca_rf, pipe_kbest_pca_rf)
 
 ###10 Scaler, featureUnion[pca & kbest], linear svc
 est_funion_lnr_sv = [('f_scaler', f_minmaxscaler), ('f_union', f_union), ('lnr_sv_clf', lnr_sv_clf)]
 funion_lnr_sv = Pipeline(est_funion_lnr_sv)
-add_estimator_pipe("[KBest Union PCA] LinearSVC", est_funion_lnr_sv, funion_lnr_sv)
+add_estimator_pipe("[KBest_Union_PCA]_LinearSVC", est_funion_lnr_sv, funion_lnr_sv)
 
 ###11 Scaler, featureUnion[pca & kbest], rbf svc
 est_funion_rbf_sv = [('f_scaler', f_minmaxscaler), ('f_union', f_union), ('rbf_sv_clf', rbf_sv_clf)]
 funion_rbf_sv = Pipeline(est_funion_rbf_sv)
-add_estimator_pipe("[KBest Union PCA] RBFSCV", est_funion_rbf_sv, funion_rbf_sv)
+add_estimator_pipe("[KBest_Union_PCA]_RBFSCV", est_funion_rbf_sv, funion_rbf_sv)
 
 ###12 Scaler, featureUnion[pca & kbest], random forest classifier
 est_funion_rf = [('f_scaler', f_minmaxscaler), ('f_union', f_union), ('rf_clf', rf_clf)]
 funion_rf = Pipeline(est_funion_rf)
-add_estimator_pipe("[KBest Union PCA] RandomForest", est_funion_rf, funion_rf)
+add_estimator_pipe("[KBest_Union_PCA]_RandomForest", est_funion_rf, funion_rf)
 
 # print(len(estimators), " estimators :: ", estimators)
 # print(len(pipes), " pipes :: ", pipes)
@@ -362,7 +363,7 @@ for nm, estimator, pipe in zip(names, estimators, pipes):
     print("Classification Report for %s " %(nm))
     print("\n %s" % (clf_reports))
     c += 1
-    # print("\n=================================================================")
+    print("=================================================================\n")
 
 
 
@@ -453,23 +454,25 @@ f_kbest__score_func = [f_classif, chi2],
 lnr_sv_clf__C = [0.001, 0.01, 0.1, 1]
 )
 
-grid_search_estimators = [est_funion_lnr_sv, est_funion_rf, est_pipe_pca_kbest_rf, est_pipe_kbest_pca_rf, est_pipe_pca_kbest_lnr_sv]
-grid_search_pipes = [funion_lnr_sv, funion_rf, pipe_pca_kbest_rf, pipe_kbest_pca_rf, pipe_pca_kbest_lnr_sv]
-grid_search_params = [params_funion_lnr_sv, params_funion_rf, params_pipe_pca_kbest_rf, params_pipe_kbest_pca_rf, params_pipe_pca_kbest_lnr_sv]
-grid_search_names = [' ( KBest U PCA_Scaler ) LinearSVC ', ' ( KBest U PCA_Scaler ) Random Forest ', ' ( PCA Scaler KBest ) Random Forest ', ' ( KBest PCA ) Random Forest ', ' ( PCA Scaler KBest ) LinearSVC ']
+grid_search_estimators = [est_funion_lnr_sv, est_funion_rf, est_pipe_pca_kbest_rf, est_pipe_kbest_pca_rf]
+grid_search_pipes = [funion_lnr_sv, funion_rf, pipe_pca_kbest_rf, pipe_kbest_pca_rf]
+grid_search_params = [params_funion_lnr_sv, params_funion_rf, params_pipe_pca_kbest_rf, params_pipe_kbest_pca_rf]
+grid_search_names = ['[KBest_Union_PCA_Scaler]_LinearSVC', '[KBest_Union_PCA_Scaler]_RandomForest', 'PCA_Scaler_KBest_RandomForest', 'KBest_PCA_RandomForest']
 
-cv = StratifiedShuffleSplit(n_splits=3, random_state=42)
+cv = StratifiedShuffleSplit(n_splits=100, random_state=42)
 
-### This is reference from tester.test_classifier
+### This is the same function from tester.test_classifier to return scores in
+### two different formats - dictionary and list.
 def computeScores(clf):
     true_negatives = 0
     false_negatives = 0
     true_positives = 0
     false_positives = 0
-    another_cv = StratifiedShuffleSplit(1000, random_state = 42)
-    # for train_idx, test_idx in cv:  ### This only works with older version of sklearn
+
+    tester_cv = StratifiedShuffleSplit(1000, random_state = 42)
+    # for train_idx, test_idx in cv: ### This only works w. older ver of sklearn
     ### Replace with the line below for StratifiedShuffleSplit of sklearn v0.18
-    for train_idx, test_idx in another_cv.split(features, labels):
+    for train_idx, test_idx in tester_cv.split(features, labels):
         features_train = []
         features_test  = []
         labels_train   = []
@@ -482,7 +485,6 @@ def computeScores(clf):
             labels_test.append( labels[jj] )
 
         ### fit the classifier using training set, and test on test set
-
         clf.fit(features_train, labels_train)
         predictions = clf.predict(features_test)
         for prediction, truth in zip(predictions, labels_test):
@@ -515,27 +517,24 @@ def computeScores(clf):
         scores_list.append(recall)
         scores_list.append(f1)
         scores_list.append(f2)
-
         scores_dict['accuracy'] = accuracy
         scores_dict['precision'] = precision
         scores_dict['recall'] = recall
         scores_dict['f1'] = f1
         scores_dict['f2'] = f2
-
     except:
         pass
-        # print("Got a divide by zero when trying out:", clf)
-        # print("Precision or recall may be undefined due to a lack of true positive predicitons.")
-
     return scores_dict, scores_list
 
 
-
+### This is a function to perform GridSearchCV fitting and return
+### the GridSearchCV.best_estimator
 def do_gridsearchcv(name, pipe, param_grid):
     grid_search = GridSearchCV(pipe, param_grid=param_grid, cv=cv, scoring='f1')
     print('    #####################################################################    ')
-    print("Performing Grid Search on %s" % name)
-    print('\n')
+    print("      Performing Grid Search on %s" % name)
+    print('    #####################################################################    ')
+    print(' ')
     print("pipeline:", [name for name, _ in pipe.steps])
     print("parameters:")
     pprint(param_grid)
@@ -543,408 +542,161 @@ def do_gridsearchcv(name, pipe, param_grid):
     grid_search.fit(features, labels)
     print("done in %0.3fs" % (time() - t0))
 
-    print('\n')
+    print(' ')
     print("Best score: %0.3f" % grid_search.best_score_)
 
     best_estimator = grid_search.best_estimator_
-    print('\n')
+    print(' ')
     print("Best estimator pipeline: ", best_estimator)
+    print(' ')
     print("Best parameters set: ")
     best_parameters = best_estimator.get_params()
     for param_name in sorted(param_grid.keys()):
         print("\t\t%s: %r" % (param_name, best_parameters[param_name]))
 
     labels_pred = grid_search.predict(features_test)
-    print('\n')
+    print(' ')
     print('Precision: %0.3f ' % precision_score(labels_test, labels_pred))
     print('Recall: %0.3f ' % recall_score(labels_test, labels_pred))
     print('F1 Score: %0.3f ' % f1_score(labels_test, labels_pred))
 
+
+    f_union = None
     kbest = None
-    ### Look for SelectKBest
     try:
-        kbest = best_estimator.named_steps['f_kbest']
+        f_union = best_estimator.named_steps['f_union']
+        if f_union is not None:
+            try:
+                kbest = best_estimator.named_steps['f_union'].get_params()['kbest']
+            except:
+                kbest = None
+                print('\nNo SelectKBest Found in FeatureUnion.')
+    except:
+        f_union = None
+        print('\nNo FeatureUnion Found.')
+        try:
+            kbest = best_estimator.named_steps['f_kbest']
+        except:
+            kbest = None
+            print('\nNo SelectKBest Found in Pipeline.')
+
+    isSVC = False
+    clf = None
+    ### See if classifier an SVC or RandomForest/DecisionTree
+    try:
+        clf = best_estimator.named_steps['lnr_sv_clf']
+        isSVC = True if clf is not None else False
     except:
         try:
-            kbest = best_estimator.named_steps['f_union'].get_params()['kbest']
+            clf = best_estimator.named_steps['rf_clf']
+            isSVC = True if clf is None else False
         except:
-            print('\nNo SelectKBest Found.')
+            print('\nNo Classifier Found.')
 
-
+    ### Get kbest properties if found
     if kbest:
-        print('\n')
+        print(' ')
         print('kbest.scores_: \n%s' % kbest.scores_)
         print('kbest.pvalues_: \n%s' % kbest.pvalues_)
         print('kbest.get_params(): \n%s' % kbest.get_params())
 
-        print('\n')
+        print(' ')
         print('Feature Scores and PValues: ')
         for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
             print("\t\tfeature %s : ( score: %0.5f, pval: %0.5f ) " % (f, score ,pval))
 
-        print('\n')
+        print(' ')
         kbest_features_selected = [all_features[i+1] for i in kbest.get_support(indices=True)]
-        print('kbest features_selected: \n%s' % kbest_features_selected)
+        print('%d kbest features_selected: \n%s' % (len(kbest_features_selected),  kbest_features_selected))
 
+    ### if there is a f_union (of kbest and pca in our case), the total features
+    ### are the union of whatever kbestselect and pca select (all)
+    if f_union is not None:
+        union_features = kbest_features_selected + all_features[1:]
 
-    isTypeDT = False if (name.find('SVC') >= 0) else True
-    print(isTypeDT)
-    if isTypeDT:
-        clf = best_estimator.named_steps['rf_clf']
-        if clf:
-            importances = clf.feature_importances_
-            indices = numpy.argsort(importances)[::-1]
+    ### If NOT SVC, then clf is RandomForest or DecisionTree Classifiers
+    if isSVC == False:
 
-            print('\nFeature Ranking by Importance: ')
+        importances = clf.feature_importances_
+        indices = numpy.argsort(importances)[::-1]
+        print(' ')
+        print(len(importances), " importances:\n ", importances)
+        print(len(indices), " indices:\n ", indices)
+        print(' ')
+        print('Feature Ranking by Importance: ')
+
+        ### if there is NO f_union
+        if f_union is None:
             for i in range(min(len(kbest_features_selected), len(importances))):
-                print("\tfeature no. %d: %s (%0.5f)" % (i+1 , kbest_features_selected[indices[i]], importances[indices[i]]))
-    else:
-        clf = best_estimator.named_steps['lnr_sv_clf']
-
-
+                print("\t\tfeature no. %d: %s (%0.5f)" % (i+1 , kbest_features_selected[indices[i]], importances[indices[i]]))
+        ### if IS a f_union
+        else:
+            for i in range(min(len(union_features), len(importances))):
+                print("\t\tfeature no. %d: %s (%0.5f)" % (i+1 , union_features[indices[i]], importances[indices[i]]))
 
     ### Test best_estimator_ with tester.test_classifier
     print('\nTest_Classifier Results:')
     test_classifier(best_estimator, my_dataset, all_features)
-    print('    #####################################################################    ')
+    print('    #####################################################################\n\n\n    ')
 
     return best_estimator
 
 
-i = 0
-n = 3
-grid_search_results = []
+i = 0 # As counter
+n = 9 # Limit, if don't want to fit the whole list
+
+
+grid_search_dict_results = []
+### Loop through the list of grid_search_pipes and perform GridSearchCV
+### Append results (dictionary of name, pipeline, performance scores) to
+### grid_search_results list
 for name, pipe, param_grid, est in zip(grid_search_names, grid_search_pipes, grid_search_params, grid_search_estimators):
-    while i < n:
-        best_estimator = do_gridsearchcv(name, pipe, param_grid)
-        scores_dict, scores_list  = computeScores(best_estimator)
-        grid_search_results.append([name, best_estimator] + scores_list)
-        i += 1
 
-pprint(grid_search_results)
-exit()
+    best_estimator = do_gridsearchcv(name, pipe, param_grid)
+    gs_dict, gs_list  = computeScores(best_estimator)
+    gs_dict['name'] = name
+    gs_dict['best_estimator'] = best_estimator
+    grid_search_dict_results.append(gs_dict)
 
 
+print('\n ')
+print('    #################   Model with Highest Accuracy   ###################  ')
+highest_acc = sorted(grid_search_dict_results, key=lambda k: k['accuracy'], reverse=True)
+pprint(highest_acc[0])
 
 
+print('    #################   Model with Highest F1 Score   ###################  ')
+highest_f1 = sorted(grid_search_dict_results, key=lambda k: k['f1'], reverse=True)
+pprint(highest_f1[0])
 
+print('    #################   Model with Highest F2 Score   ###################  ')
+highest_f2 = sorted(grid_search_dict_results, key=lambda k: k['f2'], reverse=True)
+# highest_f2 = sorted(grid_search_dict_results, key=itemgetter('f2'), reverse=True)
+pprint(highest_f2[0])
 
-print('    #####################################################################    ')
-gs_kbest_pca_rf = GridSearchCV(pipe_kbest_pca_rf, param_grid=params_pipe_kbest_pca_rf, cv=cv, scoring='f1')
 
-print("Performing grid search gs_kbest_pca_rf")
-print("pipeline:", [name for name, _ in pipe_kbest_pca_rf.steps])
-print("parameters:")
-pprint(params_pipe_kbest_pca_rf)
-t0 = time()
-gs_kbest_pca_rf.fit(features, labels)
-print("done in %0.3fs" % (time() - t0))
+print('    ##############   Model with Highest Precision Score   ###############  ')
+highest_precision = sorted(grid_search_dict_results, key=lambda k: k['precision'], reverse=True)
+# highest_precision = sorted(grid_search_dict_results, key=itemgetter('precision'), reverse=True)
+pprint(highest_precision[0])
 
-print("Best score: %0.3f" % gs_kbest_pca_rf.best_score_)
-best_estimator_kbest_pca_rf = gs_kbest_pca_rf.best_estimator_
-print("Best estimator pipeline: ", gs_kbest_pca_rf.best_estimator_)
-print("Best parameters set: ")
-best_parameters_kbest_pca_rf = gs_kbest_pca_rf.best_estimator_.get_params()
-for param_name in sorted(params_pipe_kbest_pca_rf.keys()):
-    print("\t%s: %r" % (param_name, best_parameters_kbest_pca_rf[param_name]))
+print('    #################   Model with Highest Recall Score ################# ')
+highest_recall = sorted(grid_search_dict_results, key=lambda k: k['recall'], reverse=True)
+# highest_recall = sorted(grid_search_dict_results, key=itemgetter('recall'), reverse=True)
+pprint(highest_recall[0])
 
-pred_kbest_pca_rf = gs_kbest_pca_rf.predict(features_test)
-print('Precision:', precision_score(labels_test, pred_kbest_pca_rf))
-print('Recall:', recall_score(labels_test, pred_kbest_pca_rf))
-print('F1 Score:', f1_score(labels_test, pred_kbest_pca_rf))
+print('    ####  Model with Highest F1, Precision, Recall, Accuracy Score  ##### ')
+sorted_grid_search_dict_results = sorted(grid_search_dict_results, key=lambda k: (k['f1'], k['precision'], k['recall'], k['accuracy']), reverse=True)
 
-kbest = best_estimator_kbest_pca_rf.named_steps['f_kbest']
-print('kbest.scores_: \n', kbest.scores_)
-print('kbest.pvalues_: \n', kbest.pvalues_)
-print('kbest.get_params(): \n', kbest.get_params())
+pprint(sorted_grid_search_dict_results)
+pprint(sorted_grid_search_dict_results[0]['best_estimator'])
 
-print('Feature Scores and PValues: ')
-for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
-    print("\tfeature {} : ( score: {}, pval: {} )".format(f, score ,pval))
-
-features_selected_kbest_pca_rf = [all_features[i+1] for i in kbest.get_support(indices=True)]
-print('kbest selected features_selected_kbest_pca_rf: \n', features_selected_kbest_pca_rf)
-
-### Access the feature importances from Random Forest Classifier
-importances_kbest_pca_rf = gs_kbest_pca_rf.best_estimator_.named_steps['rf_clf'].feature_importances_
-indices = numpy.argsort(importances_kbest_pca_rf)[::-1]
-
-# Use features_selected, the features selected by SelectKBest, and not features_list
-print('Feature Ranking: ')
-for i in range(min(len(features_selected_kbest_pca_rf), len(importances_kbest_pca_rf))):
-    print("\tfeature no. {}: {} ({})".format(i+1,features_selected_kbest_pca_rf[indices[i]],importances_kbest_pca_rf[indices[i]]))
-
-### Test best_estimator_ with tester.test_classifier
-test_classifier(best_estimator_kbest_pca_rf, my_dataset, all_features)
-
-
-
-
-
-print('    #####################################################################    ')
-gs_pca_kbest_rf = GridSearchCV(pipe_pca_kbest_rf, param_grid=params_pipe_pca_kbest_rf, cv=cv, scoring='f1')
-
-print("Performing grid search gs_pca_kbest_rf")
-print("pipeline:", [name for name, _ in pipe_pca_kbest_rf.steps])
-print("parameters:")
-pprint(params_pipe_pca_kbest_rf)
-t0 = time()
-gs_pca_kbest_rf.fit(features, labels)
-print("done in %0.3fs" % (time() - t0))
-
-print("Best score: %0.3f" % gs_pca_kbest_rf.best_score_)
-best_estimator_pca_kbest_rf = gs_pca_kbest_rf.best_estimator_
-print("Best estimator pipeline: ", gs_pca_kbest_rf.best_estimator_)
-print("Best parameters set: ")
-best_parameters_pca_kbest_rf = gs_pca_kbest_rf.best_estimator_.get_params()
-for param_name in sorted(params_pipe_pca_kbest_rf.keys()):
-    print("\t%s: %r" % (param_name, best_parameters_pca_kbest_rf[param_name]))
-
-pred_pca_kbest_rf = gs_pca_kbest_rf.predict(features_test)
-print('Precision:', precision_score(labels_test, pred_pca_kbest_rf))
-print('Recall:', recall_score(labels_test, pred_pca_kbest_rf))
-print('F1 Score:', f1_score(labels_test, pred_pca_kbest_rf))
-
-kbest = best_estimator_funion_rf.named_steps['f_union'].get_params()['kbest']
-print('kbest.scores_: \n', kbest.scores_)
-print('kbest.pvalues_: \n', kbest.pvalues_)
-print('kbest.get_params(): \n', kbest.get_params())
-
-print('Feature Scores and PValues: ')
-for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
-    print("\tfeature {} : ( score: {}, pval: {} )".format(f, score ,pval))
-
-features_selected_pca_kbest_rf = [all_features[i+1] for i in gs_pca_kbest_rf.best_estimator_.named_steps['f_kbest'].get_support(indices=True)]
-print('kbest selected features_selected_pca_kbest_rf: \n', features_selected_pca_kbest_rf)
-
-### Access the feature importances from Random Forest Classifier
-importances_pca_kbest_rf = gs_pca_kbest_rf.best_estimator_.named_steps['rf_clf'].feature_importances_
-indices = numpy.argsort(importances_pca_kbest_rf)[::-1]
-
-# Use features_selected, the features selected by SelectKBest, and not features_list
-print('Feature Ranking: ')
-for i in range(min(len(features_selected_pca_kbest_rf), len(importances_pca_kbest_rf))):
-    print("\tfeature no. {}: {} ({})".format(i+1,features_selected_pca_kbest_rf[indices[i]],importances_pca_kbest_rf[indices[i]]))
-
-### Test best_estimator_ with tester.test_classifier
-test_classifier(best_estimator_pca_kbest_rf, my_dataset, all_features)
-
-
-
-
-
-print('    #####################################################################    ')
-gs_funion_lnr_sv = GridSearchCV(funion_lnr_sv, param_grid=params_funion_lnr_sv, cv=cv, scoring='f1')
-
-print("Performing grid search gs_funion_lnr_sv")
-print("pipeline:", [name for name, _ in funion_lnr_sv.steps])
-pprint(funion_lnr_sv)
-print("parameters:")
-pprint(params_funion_lnr_sv)
-t0 = time()
-gs_funion_lnr_sv.fit(features, labels)
-print("done in %0.3fs" % (time() - t0))
-
-print("Best score: %0.3f" % gs_funion_lnr_sv.best_score_)
-best_estimator_funion_lnr_sv = gs_funion_lnr_sv.best_estimator_
-print("Best estimator pipeline: ", gs_funion_lnr_sv.best_estimator_)
-print("Best parameters set: ")
-best_parameters_funion_lnr_sv = gs_funion_lnr_sv.best_estimator_.get_params()
-for param_name in sorted(params_funion_lnr_sv.keys()):
-    print("\t%s: %r" % (param_name, best_parameters_funion_lnr_sv[param_name]))
-
-pred_funion_lnr_sv = gs_funion_lnr_sv.predict(features_test)
-print('Precision:', precision_score(labels_test, pred_funion_lnr_sv))
-print('Recall:', recall_score(labels_test, pred_funion_lnr_sv))
-print('F1 Score:', f1_score(labels_test, pred_funion_lnr_sv))
-
-kbest = best_estimator_funion_lnr_sv.named_steps['f_union'].get_params()['kbest']
-print('kbest.scores_: \n', kbest.scores_)
-print('kbest.pvalues_: \n', kbest.pvalues_)
-print('kbest.get_params(): \n', kbest.get_params())
-
-print('Feature Scores and PValues: ')
-for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
-    print("\tfeature {} : ( score: {}, pval: {} )".format(f, score ,pval))
-
-features_selected_funion_lnr_sv = [all_features[i+1] for i in kbest.get_support(indices=True)]
-print('kbest selected features_selected_funion_lnr_sv: \n', features_selected_funion_lnr_sv)
-
-
-### Test best_estimator_ with tester.test_classifier
-test_classifier(best_estimator_funion_lnr_sv, my_dataset, all_features)
-
-
-
-
-print('    #####################################################################    ')
-gs_funion_rf = GridSearchCV(funion_rf, param_grid=params_funion_rf, cv=cv, scoring='f1')
-
-print("Performing grid search gs_funion_rf")
-print("pipeline:", [name for name, _ in funion_rf.steps])
-pprint(funion_rf)
-print("parameters:")
-pprint(params_funion_rf)
-t0 = time()
-gs_funion_rf.fit(features, labels)
-print("done in %0.3fs" % (time() - t0))
-
-print("Best score: %0.3f" % gs_funion_rf.best_score_)
-best_estimator_funion_rf = gs_funion_rf.best_estimator_
-print("Best estimator pipeline: ", gs_funion_rf.best_estimator_)
-print("Best parameters set: ")
-best_parameters_funion_rf = gs_funion_rf.best_estimator_.get_params()
-for param_name in sorted(params_funion_rf.keys()):
-    print("\t%s: %r" % (param_name, best_parameters_funion_rf[param_name]))
-
-pred_funion_rf = gs_funion_rf.predict(features_test)
-print('Precision:', precision_score(labels_test, pred_funion_rf))
-print('Recall:', recall_score(labels_test, pred_funion_rf))
-print('F1 Score:', f1_score(labels_test, pred_funion_rf))
-
-kbest = best_estimator_funion_rf.named_steps['f_union'].get_params()['kbest']
-print('kbest.scores_: \n', kbest.scores_)
-print('kbest.pvalues_: \n', kbest.pvalues_)
-print('kbest.get_params(): \n', kbest.get_params())
-
-print('Feature Scores and PValues: ')
-for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
-    print("\tfeature {} : ( score: {}, pval: {} )".format(f, score ,pval))
-
-features_selected_funion_rf = [all_features[i+1] for i in kbest.get_support(indices=True)]
-print('kbest selected features_selected_funion_rf: \n', features_selected_funion_rf)
-
-### Access the feature importances from Random Forest Classifier
-importances_funion_rf = gs_funion_rf.best_estimator_.named_steps['rf_clf'].feature_importances_
-indices = numpy.argsort(importances_funion_rf)[::-1]
-
-# Use features_selected, the features selected by SelectKBest, and not features_list
-print('Feature Ranking: ')
-for i in range(min(len(features_selected_funion_rf), len(importances_funion_rf))):
-    print("\tfeature no. {}: {} ({})".format(i+1,features_selected_funion_rf[indices[i]],importances_funion_rf[indices[i]]))
-
-### Test best_estimator_ with tester.test_classifier
-test_classifier(best_estimator_funion_rf, my_dataset, all_features)
-
-
-
-
-
-print('    #####################################################################    ')
-gs_pca_kbest_lnr_sv = GridSearchCV(pipe_pca_kbest_lnr_sv, param_grid=params_pipe_pca_kbest_lnr_sv, cv=cv, scoring='f1')
-
-print("Performing grid search pca_kbest_lnr_sv")
-print("pipeline:", [name for name, _ in pipe_pca_kbest_lnr_sv.steps])
-print("parameters:")
-pprint(params_pipe_pca_kbest_lnr_sv)
-t0 = time()
-gs_pca_kbest_lnr_sv.fit(features, labels)
-print("done in %0.3fs" % (time() - t0))
-
-print("Best score: %0.3f" % gs_pca_kbest_lnr_sv.best_score_)
-best_estimator_pca_kbest_lnr_sv = gs_pca_kbest_lnr_sv.best_estimator_
-print("Best estimator pipeline: ", gs_pca_kbest_lnr_sv.best_estimator_)
-print("Best parameters set: ")
-best_parameters_pca_kbest_lnr_sv = gs_pca_kbest_lnr_sv.best_estimator_.get_params()
-for param_name in sorted(params_pipe_pca_kbest_lnr_sv.keys()):
-    print("\t%s: %r" % (param_name, best_parameters_pca_kbest_lnr_sv[param_name]))
-
-pred_pca_kbest_lnr_sv = gs_pca_kbest_lnr_sv.predict(features_test)
-print('Precision:', precision_score(labels_test, pred_pca_kbest_lnr_sv))
-print('Recall:', recall_score(labels_test, pred_pca_kbest_lnr_sv))
-print('F1 Score:', f1_score(labels_test, pred_pca_kbest_lnr_sv))
-
-kbest = gs_pca_kbest_lnr_sv.best_estimator_.named_steps['f_kbest']
-print('kbest.scores_: \n', kbest.scores_)
-print('kbest.pvalues_: \n', kbest.pvalues_)
-print('kbest.get_params(): \n', kbest.get_params())
-
-features_selected_pca_kbest_lnr_sv = [all_features[i+1] for i in kbest.get_support(indices=True)]
-print('features_selected_pca_kbest_lnr_sv: \n', features_selected_pca_kbest_lnr_sv)
-
-### Test best_estimator_ with tester.test_classifier
-test_classifier(best_estimator_pca_kbest_lnr_sv, my_dataset, all_features)
-
-
-
-
-print('    #####################################################################    ')
-
-
-
-#########################################################################
-#
-#  Best Results Options:
-#  Both Option 1 and 2 Gives Same F1, Precision and Recall Scores.
-#  Option 1 had GridSearchCV.best_score_ (0.314) than 2 (0.260)
-#
-#########################################################################
-#########################################################################
-# Option 1 :: pca_kbest_rf
-#########################################################################
-# est_pipe_pca_kbest_rf = [
-#       ('f_scaler_1', f_minmaxscaler),
-#       ('dim_reduc', dim_reduc),
-#       ('f_scaler_2', f_minmaxscaler),
-#       ('f_kbest', f_kbest),
-#       ('rf_clf', rf_clf)]
-# pipe_pca_kbest_rf = Pipeline(est_pipe_pca_kbest_rf)
-#
-# Best score: 0.314
-# Best parameters set:
-#       dim_reduc__n_components: 20
-#       f_kbest__k: 7
-#       f_kbest__score_func: <function chi2 at 0x108b80b70>
-#       rf_clf__criterion: 'gini'
-#       rf_clf__max_depth: 20
-#       rf_clf__n_estimators: 5
-#
-# Precision: 1.0
-# Recall: 0.8
-# F1 Score: 0.888888888889
-#
-# Feature Ranking:
-# 	     feature no. 1: other (0.25657832345323267)
-# 	     feature no. 2: deferral_payments (0.24191669636447494)
-# 	     feature no. 3: total_payments (0.128595092401951)
-# 	     feature no. 4: exercised_stock_options (0.11711177258717469)
-# 	     feature no. 5: bonus (0.11084087045516852)
-# 	     feature no. 6: loan_advances (0.08755208887176714)
-# 	     feature no. 7: salary (0.05740515586623096)
-#########################################################################
-
-#########################################################################
-# Option 2 :: kbest_pca_rf
-#########################################################################
-# est_pipe_kbest_pca_rf = [
-#       ('f_scaler_1', f_minmaxscaler),
-#       ('f_kbest', f_kbest),
-#       ('dim_reduc', dim_reduc),
-#       ('rf_clf', rf_clf)]
-# pipe_kbest_pca_rf = Pipeline(est_pipe_kbest_pca_rf)
-#
-# Best score: 0.260
-# Best parameters set:
-#       dim_reduc__n_components: 5
-#       f_kbest__k: 20
-#       f_kbest__score_func: <function chi2 at 0x108b80b70>
-#       rf_clf__criterion: 'entropy'
-#       rf_clf__max_depth: 20
-#       rf_clf__n_estimators: 5
-#
-# Precision: 1.0
-# Recall: 0.8
-# F1 Score: 0.888888888889
-#
-# Feature Ranking:
-#       feature no. 1: salary (0.3723075690037799)
-#       feature no. 2: deferral_payments (0.23866102552083235)
-#       feature no. 3: bonus (0.17434441095328976)
-#       feature no. 4: total_payments (0.10805908541163647)
-#       feature no. 5: loan_advances (0.10662790911046145)
-#######################################################################
-my_clf = best_estimator_pca_kbest_rf
+### Submit / Export files for tester.py
+my_clf = sorted_grid_search_dict_results[0]['best_estimator']
 my_feature_list = all_features
-from tester import dump_classifier_and_data
-# dump_classifier_and_data(my_clf, my_dataset, my_feature_list)
-# test_classifier
+from tester import dump_classifier_and_data, test_classifier
+### Dump pkl files
+dump_classifier_and_data(my_clf, my_dataset, my_feature_list)
+### Run my_clf, my_dataset and my_feature_list against tester.test_classifier
+print('   ###########   Final Results from Best Estimator Options    ###########   ')
+test_classifier(my_clf, my_dataset, my_feature_list)
