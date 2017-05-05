@@ -22,8 +22,6 @@ def computeFraction( poi_messages, all_messages ):
     fraction = float(poi_messages)/float(all_messages)
     fraction = fraction if !math.isnan(fraction) else 0
 
-
-
     return fraction
 
 

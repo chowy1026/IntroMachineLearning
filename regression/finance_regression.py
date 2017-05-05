@@ -23,6 +23,8 @@ import matplotlib
 # with open("../final_project/final_project_dataset.pkl", "rb") as f:
 #     enron_data = pickle.load(f)
 dictionary = pickle.load( open("../final_project/final_project_dataset_modified.pkl", "rb") )
+dictionary = pickle.load( open("../final_project/final_project_dataset.pkl", "rb") )
+
 
 ### list the features you want to look at--first item in the
 ### list will be the "target" feature
