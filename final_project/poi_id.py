@@ -664,34 +664,38 @@ print('    #################   Model with Highest Accuracy   ###################
 highest_acc = sorted(grid_search_dict_results, key=lambda k: k['accuracy'], reverse=True)
 pprint(highest_acc[0])
 
-
+print('\n ')
 print('    #################   Model with Highest F1 Score   ###################  ')
 highest_f1 = sorted(grid_search_dict_results, key=lambda k: k['f1'], reverse=True)
 pprint(highest_f1[0])
 
+print('\n ')
 print('    #################   Model with Highest F2 Score   ###################  ')
 highest_f2 = sorted(grid_search_dict_results, key=lambda k: k['f2'], reverse=True)
 # highest_f2 = sorted(grid_search_dict_results, key=itemgetter('f2'), reverse=True)
 pprint(highest_f2[0])
 
-
+print('\n ')
 print('    ##############   Model with Highest Precision Score   ###############  ')
 highest_precision = sorted(grid_search_dict_results, key=lambda k: k['precision'], reverse=True)
 # highest_precision = sorted(grid_search_dict_results, key=itemgetter('precision'), reverse=True)
 pprint(highest_precision[0])
 
+print('\n ')
 print('    #################   Model with Highest Recall Score ################# ')
 highest_recall = sorted(grid_search_dict_results, key=lambda k: k['recall'], reverse=True)
 # highest_recall = sorted(grid_search_dict_results, key=itemgetter('recall'), reverse=True)
 pprint(highest_recall[0])
 
+print('\n ')
 print('    ####  Model with Highest F1, Precision, Recall, Accuracy Score  ##### ')
 sorted_grid_search_dict_results = sorted(grid_search_dict_results, key=lambda k: (k['f1'], k['precision'], k['recall'], k['accuracy']), reverse=True)
-
 pprint(sorted_grid_search_dict_results)
 pprint(sorted_grid_search_dict_results[0]['best_estimator'])
 
 ### Submit / Export files for tester.py
+print('\n ')
+print('\n ')
 my_clf = sorted_grid_search_dict_results[0]['best_estimator']
 my_feature_list = all_features
 from tester import dump_classifier_and_data, test_classifier
