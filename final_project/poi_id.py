@@ -458,12 +458,21 @@ grid_search_estimators = [est_funion_lnr_sv, est_funion_rf, est_pipe_pca_kbest_r
 grid_search_pipes = [funion_lnr_sv, funion_rf, pipe_pca_kbest_rf, pipe_kbest_pca_rf]
 grid_search_params = [params_funion_lnr_sv, params_funion_rf, params_pipe_pca_kbest_rf, params_pipe_kbest_pca_rf]
 grid_search_names = ['[KBest_Union_PCA_Scaler]_LinearSVC', '[KBest_Union_PCA_Scaler]_RandomForest', 'PCA_Scaler_KBest_RandomForest', 'KBest_PCA_RandomForest']
+grid_search_dict_results = [] # Empty Results List to store grid_search Results
 
 cv = StratifiedShuffleSplit(n_splits=100, random_state=42)
 
 ### This is the same function from tester.test_classifier to return scores in
 ### two different formats - dictionary and list.
+### I made this because I assume minimum changes shall be made on tester.py as
+### it wont be evaluated.
 def computeScores(clf):
+    PERF_FORMAT_STRING = "\
+    \tAccuracy: {:>0.{display_precision}f}\tPrecision: {:>0.{display_precision}f}\t\
+    Recall: {:>0.{display_precision}f}\tF1: {:>0.{display_precision}f}\tF2: {:>0.{display_precision}f}"
+    RESULTS_FORMAT_STRING = "\tTotal predictions: {:4d}\tTrue positives: {:4d}\tFalse positives: {:4d}\
+    \tFalse negatives: {:4d}\tTrue negatives: {:4d}"
+
     true_negatives = 0
     false_negatives = 0
     true_positives = 0
@@ -522,45 +531,21 @@ def computeScores(clf):
         scores_dict['recall'] = recall
         scores_dict['f1'] = f1
         scores_dict['f2'] = f2
+
+        ### Print string like from tester
+        print(clf)
+        print(PERF_FORMAT_STRING.format(accuracy, precision, recall, f1, f2, display_precision = 5))
+        print(RESULTS_FORMAT_STRING.format(total_predictions, true_positives, false_positives, false_negatives, true_negatives))
+        print("")
     except:
-        pass
+        print("Got a divide by zero when trying out:", clf)
+        print("Precision or recall may be undefined due to a lack of true positive predicitons.")
+
     return scores_dict, scores_list
 
 
-### This is a function to perform GridSearchCV fitting and return
-### the GridSearchCV.best_estimator
-def do_gridsearchcv(name, pipe, param_grid):
-    grid_search = GridSearchCV(pipe, param_grid=param_grid, cv=cv, scoring='f1')
-    print('    #####################################################################    ')
-    print("      Performing Grid Search on %s" % name)
-    print('    #####################################################################    ')
-    print(' ')
-    print("pipeline:", [name for name, _ in pipe.steps])
-    print("parameters:")
-    pprint(param_grid)
-    t0 = time()
-    grid_search.fit(features, labels)
-    print("done in %0.3fs" % (time() - t0))
 
-    print(' ')
-    print("Best score: %0.3f" % grid_search.best_score_)
-
-    best_estimator = grid_search.best_estimator_
-    print(' ')
-    print("Best estimator pipeline: ", best_estimator)
-    print(' ')
-    print("Best parameters set: ")
-    best_parameters = best_estimator.get_params()
-    for param_name in sorted(param_grid.keys()):
-        print("\t\t%s: %r" % (param_name, best_parameters[param_name]))
-
-    labels_pred = grid_search.predict(features_test)
-    print(' ')
-    print('Precision: %0.3f ' % precision_score(labels_test, labels_pred))
-    print('Recall: %0.3f ' % recall_score(labels_test, labels_pred))
-    print('F1 Score: %0.3f ' % f1_score(labels_test, labels_pred))
-
-
+def get_pipeline_parts(best_estimator):
     f_union = None
     kbest = None
     try:
@@ -593,104 +578,151 @@ def do_gridsearchcv(name, pipe, param_grid):
         except:
             print('\nNo Classifier Found.')
 
-    ### Get kbest properties if found
-    if kbest:
-        print(' ')
-        print('kbest.scores_: \n%s' % kbest.scores_)
-        print('kbest.pvalues_: \n%s' % kbest.pvalues_)
-        print('kbest.get_params(): \n%s' % kbest.get_params())
+    return f_union, kbest, isSVC, clf
 
-        print(' ')
-        print('Feature Scores and PValues: ')
-        for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
-            print("\t\tfeature %s : ( score: %0.5f, pval: %0.5f ) " % (f, score ,pval))
 
-        print(' ')
-        kbest_features_selected = [all_features[i+1] for i in kbest.get_support(indices=True)]
-        print('%d kbest features_selected: \n%s' % (len(kbest_features_selected),  kbest_features_selected))
+def kbest_props(kbest):
+    print(' ')
+    print('kbest.scores_: \n%s' % kbest.scores_)
+    print('kbest.pvalues_: \n%s' % kbest.pvalues_)
+    print('kbest.get_params(): \n%s' % kbest.get_params())
 
-    ### if there is a f_union (of kbest and pca in our case), the total features
-    ### are the union of whatever kbestselect and pca select (all)
-    if f_union is not None:
-        union_features = kbest_features_selected + all_features[1:]
+    print(' ')
+    print('Feature Scores and PValues: ')
+    for f, score, pval in zip(all_features[1:], kbest.scores_, kbest.pvalues_):
+        print("\t\tfeature %s : ( score: %0.5f, pval: %0.5f ) " % (f, score ,pval))
 
-    ### If NOT SVC, then clf is RandomForest or DecisionTree Classifiers
-    if isSVC == False:
+    print(' ')
+    kbest_features_selected = [all_features[i+1] for i in kbest.get_support(indices=True)]
+    print('%d kbest features_selected: \n%s' % (len(kbest_features_selected),  kbest_features_selected))
+    return kbest_features_selected
 
-        importances = clf.feature_importances_
-        indices = numpy.argsort(importances)[::-1]
-        print(' ')
-        print(len(importances), " importances:\n ", importances)
-        print(len(indices), " indices:\n ", indices)
-        print(' ')
-        print('Feature Ranking by Importance: ')
+def selected_features_importance(clf, features):
+    ### ONLY for clf that are RandomForest or DecisionTree Classifiers
+    importances = clf.feature_importances_
+    indices = numpy.argsort(importances)[::-1]
+    print(' ')
+    print(len(importances), " importances:\n ", importances)
+    print(len(indices), " indices:\n ", indices)
+    print(' ')
+    print('Feature Ranking by Importance: ')
 
-        ### if there is NO f_union
-        if f_union is None:
-            for i in range(min(len(kbest_features_selected), len(importances))):
-                print("\t\tfeature no. %d: %s (%0.5f)" % (i+1 , kbest_features_selected[indices[i]], importances[indices[i]]))
-        ### if IS a f_union
-        else:
-            for i in range(min(len(union_features), len(importances))):
-                print("\t\tfeature no. %d: %s (%0.5f)" % (i+1 , union_features[indices[i]], importances[indices[i]]))
+    for i in range(min(len(features), len(importances))):
+        print("\t\tfeature no. %d: %s (%0.5f)" % (i+1 , features[indices[i]], importances[indices[i]]))
 
-    ### Test best_estimator_ with tester.test_classifier
-    print('\nTest_Classifier Results:')
-    test_classifier(best_estimator, my_dataset, all_features)
-    print('    #####################################################################\n\n\n    ')
+
+def best_gridsearchcv_fit(pipe, param_grid):
+    grid_search = GridSearchCV(pipe, param_grid=param_grid, cv=cv, scoring='f1')
+
+    print("pipeline:", [name for name, _ in pipe.steps])
+    print("parameters:")
+    pprint(param_grid)
+    t0 = time()
+    grid_search.fit(features, labels)
+    print("done in %0.3fs" % (time() - t0))
+
+    print(' ')
+    print("Best score: %0.3f" % grid_search.best_score_)
+
+    best_estimator = grid_search.best_estimator_
+    print(' ')
+    print("Best estimator pipeline: ", best_estimator)
+    print(' ')
+    print("Best parameters set: ")
+    best_parameters = best_estimator.get_params()
+    for param_name in sorted(param_grid.keys()):
+        print("\t\t%s: %r" % (param_name, best_parameters[param_name]))
+
+    labels_pred = grid_search.predict(features_test)
+    print(' ')
+    print('Precision: %0.3f ' % precision_score(labels_test, labels_pred))
+    print('Recall: %0.3f ' % recall_score(labels_test, labels_pred))
+    print('F1 Score: %0.3f ' % f1_score(labels_test, labels_pred))
 
     return best_estimator
 
 
-i = 0 # As counter
-n = 9 # Limit, if don't want to fit the whole list
 
+### This is a function to perform GridSearchCV fitting and return
+### the GridSearchCV.best_estimator
+def do_gridsearchcv(pipe, param_grid):
 
-grid_search_dict_results = []
-### Loop through the list of grid_search_pipes and perform GridSearchCV
-### Append results (dictionary of name, pipeline, performance scores) to
-### grid_search_results list
-for name, pipe, param_grid, est in zip(grid_search_names, grid_search_pipes, grid_search_params, grid_search_estimators):
+    best_estimator = best_gridsearchcv_fit(pipe, param_grid)
 
-    best_estimator = do_gridsearchcv(name, pipe, param_grid)
+    f_union, kbest, isSVC, clf = get_pipeline_parts(best_estimator)
+
+    features = None
+    if kbest is not None:
+        features = kbest_props(kbest)
+        if f_union is not None:
+            features = features + all_features[1:]
+
+    ### Get feature importance if clf is RandomForest or DecisionTree.
+    if isSVC == False:  ###
+        selected_features_importance(clf, features)
+
     gs_dict, gs_list  = computeScores(best_estimator)
     gs_dict['name'] = name
     gs_dict['best_estimator'] = best_estimator
     grid_search_dict_results.append(gs_dict)
 
 
+
+i = 0 # As counter
+n = 9 # Limit, if don't want to fit the whole list
+
+
+### Loop through the list of grid_search_pipes and perform GridSearchCV
+### Append results (dictionary of name, pipeline, performance scores) to
+### grid_search_results list
+for name, pipe, param_grid in zip(grid_search_names, grid_search_pipes, grid_search_params):
+    print('    #####################################################################    ')
+    print("      Performing Grid Search on %s" % name)
+    print('    #####################################################################    ')
+    print(' ')
+
+    do_gridsearchcv(pipe, param_grid)
+
+    print('    #####################################################################\n\n\n    ')
+
+
 print('\n ')
 print('    #################   Model with Highest Accuracy   ###################  ')
 highest_acc = sorted(grid_search_dict_results, key=lambda k: k['accuracy'], reverse=True)
 pprint(highest_acc[0])
+pprint(highest_acc[0]['best_estimator'])
 
 print('\n ')
 print('    #################   Model with Highest F1 Score   ###################  ')
 highest_f1 = sorted(grid_search_dict_results, key=lambda k: k['f1'], reverse=True)
 pprint(highest_f1[0])
+pprint(highest_f1[0]['best_estimator'])
 
 print('\n ')
 print('    #################   Model with Highest F2 Score   ###################  ')
 highest_f2 = sorted(grid_search_dict_results, key=lambda k: k['f2'], reverse=True)
 # highest_f2 = sorted(grid_search_dict_results, key=itemgetter('f2'), reverse=True)
 pprint(highest_f2[0])
+pprint(highest_f2[0]['best_estimator'])
 
 print('\n ')
 print('    ##############   Model with Highest Precision Score   ###############  ')
 highest_precision = sorted(grid_search_dict_results, key=lambda k: k['precision'], reverse=True)
 # highest_precision = sorted(grid_search_dict_results, key=itemgetter('precision'), reverse=True)
 pprint(highest_precision[0])
+pprint(highest_precision[0]['best_estimator'])
 
 print('\n ')
 print('    #################   Model with Highest Recall Score ################# ')
 highest_recall = sorted(grid_search_dict_results, key=lambda k: k['recall'], reverse=True)
 # highest_recall = sorted(grid_search_dict_results, key=itemgetter('recall'), reverse=True)
 pprint(highest_recall[0])
+pprint(highest_recall[0]['best_estimator'])
 
 print('\n ')
 print('    ####  Model with Highest F1, Precision, Recall, Accuracy Score  ##### ')
 sorted_grid_search_dict_results = sorted(grid_search_dict_results, key=lambda k: (k['f1'], k['precision'], k['recall'], k['accuracy']), reverse=True)
-pprint(sorted_grid_search_dict_results)
+pprint(sorted_grid_search_dict_results[0])
 pprint(sorted_grid_search_dict_results[0]['best_estimator'])
 
 ### Submit / Export files for tester.py
